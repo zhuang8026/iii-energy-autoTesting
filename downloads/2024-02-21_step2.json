@@ -1,10 +1,5 @@
 [
     {
-        "stage": 1,
-        "pathName": "用戶登入",
-        "status": "Normal"
-    },
-    {
         "stage": 2,
         "pathName": "每週節電建議",
         "status": "Normal"

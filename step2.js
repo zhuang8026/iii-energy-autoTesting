@@ -27,10 +27,9 @@ let arrLink = [];
 let account = 'billdavid50814@gmail.com';
 let pwd = 'Enargy17885@';
 
-//進行檢索(搜尋職缺名稱)
-async function login() {
-  console.log('正式機開始檢查');
-  console.log('開始登入(用戶:billdavid50814)');
+//正式機 - 日常用電追蹤
+async function goMain() {
+  console.log('stage2 - 日常用電追蹤');
 
   //輸入關鍵字，選擇地區，再按下搜尋
   await nightmare
@@ -58,7 +57,7 @@ async function login() {
     // .wait(1000)
     // .click('button.btn.btn-primary.js-formCheck') // 搜索 按键
     .catch((err) => {
-      console.log('ERROR')
+      console.log('ERROR');
       // throw err;
     });
 }
@@ -125,15 +124,15 @@ async function elmStatus(stage, page, elm) {
 }
 
 //分析、整理、收集重要資訊
-async function parseHtml() {
+async function mainParseHtml() {
   console.log('開始收集重要資訊');
   //取得滾動後，得到動態產生結果的 html 元素
   let html = await nightmare.evaluate(() => document.documentElement.innerHTML);
 
   //將重要資掀放到陣列中，以便後續儲存
   // 用戶登入
-  let mianElm = $(html).find('div.track');
-  let loginStatus = await elmStatus(1, '用戶登入', mianElm);
+  // let mianElm = $(html).find('div.track');
+  // let loginStatus = await elmStatus(1, '用戶登入', mianElm);
 
   // 每週節電建議
   let dialogElm = $(html).find('div.el-dialog[aria-label="節電建議"]');
@@ -146,16 +145,24 @@ async function parseHtml() {
   // 用電追蹤
   let trackElm = $(html).find('div.number');
   let trackStatus = await elmStatus(2, '用電追蹤', trackElm);
-  
+
   // 近期用電趨勢 - Recent electricity usage trends
   let RecentElectricityElm = $(html).find('button.chart-btn:nth-child(1)');
-  let RecentElectricityStatus = await elmStatus(2, '近期用電趨勢', RecentElectricityElm);
+  let RecentElectricityStatus = await elmStatus(
+    2,
+    '近期用電趨勢',
+    RecentElectricityElm
+  );
 
   // 異常用電趨勢 - Abnormal electricity usage trends
   let AbnormalElectricityElm = $(html).find('button.chart-btn:nth-child(2)');
-  let AbnormalElectricityStatus = await elmStatus(2, '異常用電趨勢', AbnormalElectricityElm);
+  let AbnormalElectricityStatus = await elmStatus(
+    2,
+    '異常用電趨勢',
+    AbnormalElectricityElm
+  );
 
-  arrLink.push(loginStatus);
+  // arrLink.push(loginStatus);
   arrLink.push(dialogStatus);
   arrLink.push(householdStatus);
   arrLink.push(trackStatus);
@@ -204,11 +211,12 @@ async function asyncArray(functionList) {
 
 try {
   asyncArray([
-    login,
+    goMain,
+    mainParseHtml,
     // setJobType,
     // scrollPage,
-    parseHtml,
-    // close,
+    // mainParseHtml,
+    close,
   ]).then(async function () {
     console.dir(arrLink, { depth: null });
     const today = new Date();
@@ -219,13 +227,13 @@ try {
 
     const formattedDate = `${year}-${month}-${day}`;
     await writeFile(
-      `downloads/${formattedDate}_step2_energy_autotesting.json`,
+      `downloads/${formattedDate}_step2.json`,
       JSON.stringify(arrLink, null, 4)
     );
 
     console.log('Done');
   });
 } catch (err) {
-  console.log('ERROR')
+  console.log('ERROR');
   // throw err;
 }
