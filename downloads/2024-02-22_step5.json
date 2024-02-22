@@ -2,16 +2,16 @@
     {
         "stage": 5,
         "pathName": "密碼變更",
-        "status": "Failed"
+        "status": "Normal"
     },
     {
         "stage": 5,
         "pathName": "資料修改",
-        "status": "Failed"
+        "status": "Normal"
     },
     {
         "stage": 5,
         "pathName": "綁定電器",
-        "status": "Failed"
+        "status": "Normal"
     }
 ]

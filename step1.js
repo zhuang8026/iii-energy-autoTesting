@@ -56,7 +56,7 @@ async function goMain() {
     .wait(1000) //等待數秒
     .click('button.btn') //按下「登入」
     .wait('div.w-block__body') //等待數秒
-    .wait(1000) //等待數秒
+    .wait(4000) //等待數秒
     .catch((err) => {
       console.log('ERROR');
       // throw err;
@@ -131,24 +131,28 @@ async function asyncArray(functionList) {
 }
 
 try {
-  asyncArray([login, loginParseHtml, goMain, mainParseHtml, close]).then(
-    async function () {
-      console.dir(arrLink, { depth: null });
-      const today = new Date();
+  asyncArray([
+    login,
+    loginParseHtml, //
+    goMain,
+    mainParseHtml,
+    close,
+  ]).then(async function () {
+    console.dir(arrLink, { depth: null });
+    const today = new Date();
 
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0'); // 使用padStart()来确保月份为两位数
-      const day = String(today.getDate()).padStart(2, '0'); // 使用padStart()来确保日期为两位数
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // 使用padStart()来确保月份为两位数
+    const day = String(today.getDate()).padStart(2, '0'); // 使用padStart()来确保日期为两位数
 
-      const formattedDate = `${year}-${month}-${day}`;
-      await writeFile(
-        `downloads/${formattedDate}_step1.json`,
-        JSON.stringify(arrLink, null, 4)
-      );
+    const formattedDate = `${year}-${month}-${day}`;
+    await writeFile(
+      `downloads/${formattedDate}_step1.json`,
+      JSON.stringify(arrLink, null, 4)
+    );
 
-      console.log('Done');
-    }
-  );
+    console.log('Done');
+  });
 } catch (err) {
   console.log('ERROR');
   // throw err;

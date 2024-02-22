@@ -40,7 +40,7 @@ async function report() {
     .wait(1000) //等待數秒
     .click('button.btn') //按下「登入」
     .wait('div.w-block__body') //等待數秒
-    .wait(1000) //等待數秒
+    .wait(4000) //等待數秒
     .click('li.el-menu-item:nth-child(2)') //按下「家庭能源報告」
     .wait(2000) //等待數秒
     .click('div.carousel-item-content:nth-child(1)') //按下「月報」
@@ -163,7 +163,7 @@ try {
     reportParseHtml, //
     weekendReport,
     monthParseHtml,
-    // close,
+    close,
   ]).then(async function () {
     console.dir(arrLink, { depth: null });
     const today = new Date();

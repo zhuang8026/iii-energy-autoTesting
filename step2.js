@@ -40,7 +40,7 @@ async function goMain() {
     .wait(1000) //等待數秒
     .click('button.btn') //按下「登入」
     .wait('div.w-block__body') //等待數秒
-    .wait(1000) //等待數秒
+    .wait(4000) //等待數秒
     .click('div.label-bell') //按下「用電追蹤」
     .wait(1000) //等待數秒
     .click('button.chart-btn:nth-child(1)') //按下「用電追蹤」
