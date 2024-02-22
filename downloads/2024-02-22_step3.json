@@ -1,0 +1,42 @@
+[
+    {
+        "stage": 3,
+        "pathName": "月報-同儕用電比較",
+        "status": "Normal"
+    },
+    {
+        "stage": 3,
+        "pathName": "月報-用電總結",
+        "status": "Normal"
+    },
+    {
+        "stage": 3,
+        "pathName": "月報-近一年用電量比較",
+        "status": "Normal"
+    },
+    {
+        "stage": 3,
+        "pathName": "月報-節電表現",
+        "status": "Normal"
+    },
+    {
+        "stage": 3,
+        "pathName": "週報-同儕用電比較",
+        "status": "Normal"
+    },
+    {
+        "stage": 3,
+        "pathName": "週報-近期用電量比較",
+        "status": "Normal"
+    },
+    {
+        "stage": 3,
+        "pathName": "週報-電器用電佔比",
+        "status": "Normal"
+    },
+    {
+        "stage": 3,
+        "pathName": "週報-節電建議",
+        "status": "Normal"
+    }
+]

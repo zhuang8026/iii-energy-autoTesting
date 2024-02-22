@@ -48,14 +48,15 @@ async function goMain() {
 
   //輸入關鍵字，選擇地區，再按下搜尋
   await nightmare
-    // .goto('https://www.energy-active.org.tw/login', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
+    // .goto('https://dev.energy-active.org.tw/login', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
     .wait(1000) //等待數秒
     .type('input.el-input__inner', account) //輸入帳號
     .wait(1000) //等待數秒
     .type('div.el-input--suffix input.el-input__inner', pwd) //輸入密碼
     .wait(1000) //等待數秒
     .click('button.btn') //按下「登入」
-    .wait(8000) //等待數秒
+    .wait('div.w-block__body') //等待數秒
+    .wait(1000) //等待數秒
     .catch((err) => {
       console.log('ERROR');
       // throw err;
@@ -130,28 +131,24 @@ async function asyncArray(functionList) {
 }
 
 try {
-  asyncArray([
-    login,
-    loginParseHtml,
-    goMain,
-    mainParseHtml,
-    close,
-  ]).then(async function () {
-    console.dir(arrLink, { depth: null });
-    const today = new Date();
+  asyncArray([login, loginParseHtml, goMain, mainParseHtml, close]).then(
+    async function () {
+      console.dir(arrLink, { depth: null });
+      const today = new Date();
 
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // 使用padStart()来确保月份为两位数
-    const day = String(today.getDate()).padStart(2, '0'); // 使用padStart()来确保日期为两位数
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0'); // 使用padStart()来确保月份为两位数
+      const day = String(today.getDate()).padStart(2, '0'); // 使用padStart()来确保日期为两位数
 
-    const formattedDate = `${year}-${month}-${day}`;
-    await writeFile(
-      `downloads/${formattedDate}_step1.json`,
-      JSON.stringify(arrLink, null, 4)
-    );
+      const formattedDate = `${year}-${month}-${day}`;
+      await writeFile(
+        `downloads/${formattedDate}_step1.json`,
+        JSON.stringify(arrLink, null, 4)
+      );
 
-    console.log('Done');
-  });
+      console.log('Done');
+    }
+  );
 } catch (err) {
   console.log('ERROR');
   // throw err;

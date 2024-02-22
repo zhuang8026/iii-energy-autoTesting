@@ -40,7 +40,7 @@ async function drivce() {
     .wait(1000) //等待數秒
     .click('button.btn') //按下「登入」
     .wait('div.w-block__body') //等待數秒
-    // .wait(8000) //等待數秒
+    .wait(1000) //等待數秒
     .click('li.el-menu-item:nth-child(3)') //按下「家庭能源報告」
     .wait(8000) //等待數秒
     .click('div.bell-box:nth-child(1)') //按下「用電建議」
@@ -113,11 +113,7 @@ async function asyncArray(functionList) {
 }
 
 try {
-  asyncArray([
-    drivce,
-    drivceParseHtml,
-    close,
-  ]).then(async function () {
+  asyncArray([drivce, drivceParseHtml, close]).then(async function () {
     console.dir(arrLink, { depth: null });
     const today = new Date();
 

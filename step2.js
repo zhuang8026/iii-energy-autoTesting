@@ -39,7 +39,8 @@ async function goMain() {
     .type('div.el-input--suffix input.el-input__inner', pwd) //輸入密碼
     .wait(1000) //等待數秒
     .click('button.btn') //按下「登入」
-    .wait(8000) //等待數秒
+    .wait('div.w-block__body') //等待數秒
+    .wait(1000) //等待數秒
     .click('div.label-bell') //按下「用電追蹤」
     .wait(1000) //等待數秒
     .click('button.chart-btn:nth-child(1)') //按下「用電追蹤」
@@ -48,7 +49,7 @@ async function goMain() {
     .wait(2000) //等待數秒
     // .click('div.logout__title') //按下「登出」
     // .wait(1000) //等待數秒
-    // .goto('https://www.energy-active.org.tw/news') // 进度到当前网址，所以如果想返回，也可以只有.goto()
+    // .goto('https://dev.energy-active.org.tw/news') // 进度到当前网址，所以如果想返回，也可以只有.goto()
     // .click('div.second-floor-rect input[value="6001001000"]') //選擇台北市
     // .wait(1000)
     // .click('div.second-floor-rect input[value="6001002000"]') //選擇新北市

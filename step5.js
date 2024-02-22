@@ -40,7 +40,7 @@ async function userModify() {
     .wait(1000) //等待數秒
     .click('button.btn') //按下「登入」
     .wait('div.w-block__body') //等待數秒
-    .wait(2000) //等待數秒
+    .wait(1000) //等待數秒
     .click('div.el-menu--horizontal .el-menu .el-menu-item:nth-child(1)') //按下「密碼變更」
     .wait(2000) //等待數秒
     .click('div.el-menu--horizontal .el-menu .el-menu-item:nth-child(2)') //按下「資料修改」
