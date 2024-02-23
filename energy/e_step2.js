@@ -228,7 +228,7 @@ try {
 
     const formattedDate = `${year}-${month}-${day}`;
     await writeFile(
-      `downloads/${formattedDate}_step2.json`,
+      `downloads/energy/${formattedDate}_step2.json`,
       JSON.stringify(arrLink, null, 4)
     );
 

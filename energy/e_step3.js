@@ -27,9 +27,9 @@ let arrLink = [];
 let account = 'billdavid50814@gmail.com';
 let pwd = 'Enargy17885@';
 
-//正式機 - 客戶服務
-async function userModify() {
-  console.log('stage5 - 客戶服務');
+//正式機 - 家庭能源報告
+async function report() {
+  console.log('stage3 - 家庭能源報告');
 
   //輸入關鍵字，選擇地區，再按下搜尋
   await nightmare
@@ -41,19 +41,29 @@ async function userModify() {
     .click('button.btn') //按下「登入」
     .wait('div.w-block__body') //等待數秒
     .wait(4000) //等待數秒
-    .click('div.el-menu--horizontal .el-menu .el-menu-item:nth-child(1)') //按下「密碼變更」
+    .click('li.el-menu-item:nth-child(2)') //按下「家庭能源報告」
     .wait(2000) //等待數秒
-    .click('div.el-menu--horizontal .el-menu .el-menu-item:nth-child(2)') //按下「資料修改」
-    .wait(2000) //等待數秒
-    .click('div.el-menu--horizontal .el-menu .el-menu-item:nth-child(3)') //按下「家戶組成與電器持有調查」
-    .wait(2000) //等待數秒
+    .click('div.carousel-item-content:nth-child(1)') //按下「月報」
+    .wait(4000) //等待數秒
     .catch((err) => {
       console.log('ERROR');
       // throw err;
     });
 }
 
-async function elmStatus(stage, page, elm) {
+//按「下一頁」
+async function weekendReport() {
+  await nightmare
+    .wait(1000) //等待數秒
+    .click('li.el-menu-item:nth-child(2)') //按下「家庭能源報告」
+    .wait(1000) //等待數秒
+    .click('div.vfc-cursor-pointer:nth-child(1)') //按下「週報」
+    .wait(2000) //等待數秒
+    .click('div.vfc-week:nth-child(1) .vfc-day:nth-child(1) .vfc-span-day:nth-child(1') //按下「月報」
+    .wait(2000) //等待數秒
+}
+
+async function elmStatus(stage, page, elm, bool=false) {
   //存放主要資訊的物件
   let obj = {
     stage: 0, // 1, 2, 3, 4
@@ -63,37 +73,74 @@ async function elmStatus(stage, page, elm) {
 
   obj.stage = stage;
   obj.pathName = page;
-
+  console.log(elm.text());
   if (elm.text() != '') {
     obj.status = 'Normal';
   } else {
     obj.status = 'Failed';
+
+    if (bool) {
+      if (elm.find('canvas').length > 0) {
+        obj.status = 'Normal';
+      } else {
+        obj.status = 'Failed';
+      }
+    }
   }
+
   return obj;
 }
 
 //分析、整理、收集重要資訊
-async function userModifyParseHtml() {
+async function reportParseHtml() {
   console.log('開始收集重要資訊');
   //取得滾動後，得到動態產生結果的 html 元素
   let html = await nightmare.evaluate(() => document.documentElement.innerHTML);
 
   //將重要資掀放到陣列中，以便後續儲存
-  // 密碼變更
-  let pwdModify = $(html).find('div.form-box');
-  let pwdModifyStatus = await elmStatus(5, '密碼變更', pwdModify); 
+  // 同儕用電比較
+  let userCompare = $(html).find('div.bar-chart');
+  let userCompareStatus = await elmStatus(3, '月報-同儕用電比較', userCompare);
+  // 用電總結
+  let summarize = $(html).find('div.row__ranking .row__container');
+  let summarizeStatus = await elmStatus(3, '月報-用電總結', summarize);
+  // 用電量比較
+  let yearCompare = $(html).find('#chartLine');
+  let yearCompareStatus = await elmStatus(3, '月報-近一年用電量比較', yearCompare, true);
+  // 節電表現
+  let show = $(html).find('ul.performance-text');
+  let showStatus = await elmStatus(3, '月報-節電表現', show);
 
-  // 資料修改
-  let questionnaire = $(html).find('div.questionnaire-content');
-  let questionnaireStatus = await elmStatus(5, '資料修改', questionnaire); 
+  arrLink.push(userCompareStatus);
+  arrLink.push(summarizeStatus);
+  arrLink.push(yearCompareStatus);
+  arrLink.push(showStatus);
+}
 
-  // 綁定電器
-  let register = $(html).find('div.register-item--full');
-  let registerStatus = await elmStatus(5, '綁定電器', register);  
+//分析、整理、收集重要資訊
+async function monthParseHtml() {
+  console.log('開始收集重要資訊');
+  //取得滾動後，得到動態產生結果的 html 元素
+  let html = await nightmare.evaluate(() => document.documentElement.innerHTML);
 
-  arrLink.push(pwdModifyStatus);
-  arrLink.push(questionnaireStatus);
-  arrLink.push(registerStatus);
+  //將重要資掀放到陣列中，以便後續儲存
+  // 同儕用電比較
+  let userCompare = $(html).find('div.bar-chart');
+  let userCompareStatus = await elmStatus(3, '週報-同儕用電比較', userCompare);
+  // 用電量比較
+  let dayCompare = $(html).find('#chartLine');
+  let dayCompareStatus = await elmStatus(3, '週報-近期用電量比較', dayCompare, true);
+  // 電器用電佔比
+  let proportion = $(html).find('ul.legend-box');
+  let proportionStatus = await elmStatus(3, '週報-電器用電佔比', proportion);
+  // 節電建議
+  let show = $(html).find('div.advice-text p');
+  let showStatus = await elmStatus(3, '週報-節電建議', show);
+
+  arrLink.push(userCompareStatus);
+  arrLink.push(dayCompareStatus);
+  arrLink.push(proportionStatus);
+  arrLink.push(showStatus);
 }
 
 //關閉 nightmare
@@ -112,8 +159,10 @@ async function asyncArray(functionList) {
 
 try {
   asyncArray([
-    userModify,
-    userModifyParseHtml,
+    report,
+    reportParseHtml, //
+    weekendReport,
+    monthParseHtml,
     close,
   ]).then(async function () {
     console.dir(arrLink, { depth: null });
@@ -125,7 +174,7 @@ try {
 
     const formattedDate = `${year}-${month}-${day}`;
     await writeFile(
-      `downloads/${formattedDate}_step5.json`,
+      `downloads/energy/${formattedDate}_step3.json`,
       JSON.stringify(arrLink, null, 4)
     );
 

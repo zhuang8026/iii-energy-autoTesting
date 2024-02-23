@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 // 定义要执行的文件数组
-const files = ['step1.js', 'step2.js', 'step3.js', 'step4.js', 'step5.js'];
+const files = ['e_step1.js', 'e_step2.js', 'e_step3.js', 'e_step4.js', 'e_step5.js'];
 
 // 定义同步函数来按顺序执行文件
 function executeFilesSync(index) {
@@ -16,7 +16,7 @@ function executeFilesSync(index) {
 
     try {
         // 同步读取文件内容
-        const fileContent = fs.readFileSync(currentFile, 'utf8');
+        const fileContent = fs.readFileSync(`./energy/${currentFile}`, 'utf8');
         // 执行文件内容
         eval(fileContent);
         console.log(`已執行文件 ${currentFile}`);
@@ -24,7 +24,7 @@ function executeFilesSync(index) {
         // 间隔1分钟后执行下一个文件
         setTimeout(() => {
             executeFilesSync(index + 1);
-        }, 40000); // 60000毫秒 = 1分钟
+        }, 60000); // 60000毫秒 = 1分钟
     } catch (error) {
         console.error(`執行文件 ${currentFile} 出錯：`, error);
     }

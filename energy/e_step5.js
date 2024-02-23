@@ -27,29 +27,13 @@ let arrLink = [];
 let account = 'billdavid50814@gmail.com';
 let pwd = 'Enargy17885@';
 
-//正式機 - 登入
-async function login() {
-  console.log('stage1 - 忘記密碼');
-  console.log('開始登入(用戶:billdavid50814)');
-
-  // 忘記密碼
-  await nightmare
-    .goto('https://www.energy-active.org.tw/login', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
-    .click('div.forget') //按下「登入」
-    .wait(2000) //等待數秒
-    .catch((err) => {
-      console.log('ERROR');
-      // throw err;
-    });
-}
-
-async function goMain() {
-  console.log('stage1 - 登入');
+//正式機 - 客戶服務
+async function userModify() {
+  console.log('stage5 - 客戶服務');
 
   //輸入關鍵字，選擇地區，再按下搜尋
   await nightmare
-    // .goto('https://dev.energy-active.org.tw/login', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
-    .wait(1000) //等待數秒
+    .goto('https://www.energy-active.org.tw/login', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
     .type('input.el-input__inner', account) //輸入帳號
     .wait(1000) //等待數秒
     .type('div.el-input--suffix input.el-input__inner', pwd) //輸入密碼
@@ -57,17 +41,16 @@ async function goMain() {
     .click('button.btn') //按下「登入」
     .wait('div.w-block__body') //等待數秒
     .wait(4000) //等待數秒
+    .click('div.el-menu--horizontal .el-menu .el-menu-item:nth-child(1)') //按下「密碼變更」
+    .wait(2000) //等待數秒
+    .click('div.el-menu--horizontal .el-menu .el-menu-item:nth-child(2)') //按下「資料修改」
+    .wait(2000) //等待數秒
+    .click('div.el-menu--horizontal .el-menu .el-menu-item:nth-child(3)') //按下「家戶組成與電器持有調查」
+    .wait(2000) //等待數秒
     .catch((err) => {
       console.log('ERROR');
       // throw err;
     });
-}
-
-//按「下一頁」
-async function _checkPagination() {
-  await nightmare
-    .wait('button.b-btn.b-btn--link.js-more-page')
-    .click('button.b-btn.b-btn--link.js-more-page');
 }
 
 async function elmStatus(stage, page, elm) {
@@ -90,30 +73,27 @@ async function elmStatus(stage, page, elm) {
 }
 
 //分析、整理、收集重要資訊
-async function loginParseHtml() {
+async function userModifyParseHtml() {
   console.log('開始收集重要資訊');
   //取得滾動後，得到動態產生結果的 html 元素
   let html = await nightmare.evaluate(() => document.documentElement.innerHTML);
 
   //將重要資掀放到陣列中，以便後續儲存
-  // 用戶登入
-  let forgetPassword = $(html).find('div.el-dialog__body');
-  let forgetPasswordStatus = await elmStatus(1, '忘記密碼', forgetPassword);
+  // 密碼變更
+  let pwdModify = $(html).find('div.form-box');
+  let pwdModifyStatus = await elmStatus(5, '密碼變更', pwdModify); 
 
-  arrLink.push(forgetPasswordStatus);
-}
+  // 資料修改
+  let questionnaire = $(html).find('div.questionnaire-content');
+  let questionnaireStatus = await elmStatus(5, '資料修改', questionnaire); 
 
-async function mainParseHtml() {
-  console.log('開始收集重要資訊');
-  //取得滾動後，得到動態產生結果的 html 元素
-  let html = await nightmare.evaluate(() => document.documentElement.innerHTML);
+  // 綁定電器
+  let register = $(html).find('div.register-item--full');
+  let registerStatus = await elmStatus(5, '綁定電器', register);  
 
-  //將重要資掀放到陣列中，以便後續儲存
-  // 用戶登入
-  let mianElm = $(html).find('div.track');
-  let loginStatus = await elmStatus(1, '用戶登入', mianElm);
-
-  arrLink.push(loginStatus);
+  arrLink.push(pwdModifyStatus);
+  arrLink.push(questionnaireStatus);
+  arrLink.push(registerStatus);
 }
 
 //關閉 nightmare
@@ -132,10 +112,8 @@ async function asyncArray(functionList) {
 
 try {
   asyncArray([
-    login,
-    loginParseHtml, //
-    goMain,
-    mainParseHtml,
+    userModify,
+    userModifyParseHtml,
     close,
   ]).then(async function () {
     console.dir(arrLink, { depth: null });
@@ -147,7 +125,7 @@ try {
 
     const formattedDate = `${year}-${month}-${day}`;
     await writeFile(
-      `downloads/${formattedDate}_step1.json`,
+      `downloads/energy/${formattedDate}_step5.json`,
       JSON.stringify(arrLink, null, 4)
     );
 
