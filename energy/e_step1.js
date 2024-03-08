@@ -35,8 +35,9 @@ async function login() {
   // 忘記密碼
   await nightmare
     .goto('https://www.energy-active.org.tw/login', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
+    .wait(10000) //等待數秒
     .click('div.forget') //按下「登入」
-    .wait(2000) //等待數秒
+    .wait(10000) //等待數秒
     .catch((err) => {
       console.log('ERROR');
       // throw err;
