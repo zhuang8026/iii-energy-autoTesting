@@ -2,7 +2,7 @@
     {
         "stage": 2,
         "pathName": "每週節電建議",
-        "status": "Failed"
+        "status": "Normal"
     },
     {
         "stage": 2,
@@ -12,16 +12,11 @@
     {
         "stage": 2,
         "pathName": "用電追蹤",
-        "status": "Failed"
+        "status": "Normal"
     },
     {
         "stage": 2,
         "pathName": "近期用電趨勢",
-        "status": "Failed"
-    },
-    {
-        "stage": 2,
-        "pathName": "異常用電趨勢",
-        "status": "Failed"
+        "status": "Normal"
     }
 ]

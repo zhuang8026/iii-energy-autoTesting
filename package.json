@@ -24,6 +24,12 @@
     "jquery": "^3.4.1",
     "jsdom": "^16.2.2",
     "moment": "^2.24.0",
-    "nightmare": "^3.0.2"
+    "nightmare": "^3.0.2",
+    "electron": "^11.0.0"
+  },
+  "overrides": {
+    "nightmare": {
+      "electron": "$electron"
+    }
   }
 }

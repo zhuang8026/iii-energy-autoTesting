@@ -43,10 +43,10 @@ async function goMain() {
     .wait(4000) //等待數秒
     .click('div.label-bell') //按下「用電追蹤」
     .wait(1000) //等待數秒
-    .click('button.chart-btn:nth-child(1)') //按下「用電追蹤」
-    .wait(2000) //等待數秒
-    .click('button.chart-btn:nth-child(2)') //按下「用電追蹤」
-    .wait(2000) //等待數秒
+    // .click('button.chart-btn:nth-child(1)') //按下「用電追蹤」
+    // .wait(2000) //等待數秒
+    // .click('button.chart-btn:nth-child(2)') //按下「用電追蹤」
+    // .wait(2000) //等待數秒
     // .click('div.logout__title') //按下「登出」
     // .wait(1000) //等待數秒
     // .goto('https://dev.energy-active.org.tw/news') // 进度到当前网址，所以如果想返回，也可以只有.goto()
@@ -148,27 +148,19 @@ async function mainParseHtml() {
   let trackStatus = await elmStatus(2, '用電追蹤', trackElm);
 
   // 近期用電趨勢 - Recent electricity usage trends
-  let RecentElectricityElm = $(html).find('button.chart-btn:nth-child(1)');
-  let RecentElectricityStatus = await elmStatus(
-    2,
-    '近期用電趨勢',
-    RecentElectricityElm
-  );
+  let RecentElectricityElm = $(html).find('div.el-dialog__body');
+  let RecentElectricityStatus = await elmStatus(2, '近期用電趨勢', RecentElectricityElm);
 
   // 異常用電趨勢 - Abnormal electricity usage trends
-  let AbnormalElectricityElm = $(html).find('button.chart-btn:nth-child(2)');
-  let AbnormalElectricityStatus = await elmStatus(
-    2,
-    '異常用電趨勢',
-    AbnormalElectricityElm
-  );
+  // let AbnormalElectricityElm = $(html).find('button.chart-btn:nth-child(2)');
+  // let AbnormalElectricityStatus = await elmStatus(2, '異常用電趨勢', AbnormalElectricityElm);
 
   // arrLink.push(loginStatus);
   arrLink.push(dialogStatus);
   arrLink.push(householdStatus);
   arrLink.push(trackStatus);
   arrLink.push(RecentElectricityStatus);
-  arrLink.push(AbnormalElectricityStatus);
+  // arrLink.push(AbnormalElectricityStatus);
 
   // $(html)
   //   .find('div.w-layout')
