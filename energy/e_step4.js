@@ -34,6 +34,7 @@ async function drivce() {
   //輸入關鍵字，選擇地區，再按下搜尋
   await nightmare
     .goto('https://www.energy-active.org.tw/login', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
+    .wait('div.login-container') //等待數秒
     .type('input.el-input__inner', account) //輸入帳號
     .wait(1000) //等待數秒
     .type('div.el-input--suffix input.el-input__inner', pwd) //輸入密碼

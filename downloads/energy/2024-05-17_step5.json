@@ -1,0 +1,17 @@
+[
+    {
+        "stage": 5,
+        "pathName": "密碼變更",
+        "status": "Normal"
+    },
+    {
+        "stage": 5,
+        "pathName": "資料修改",
+        "status": "Normal"
+    },
+    {
+        "stage": 5,
+        "pathName": "綁定電器",
+        "status": "Normal"
+    }
+]
