@@ -1,0 +1,22 @@
+[
+    {
+        "stage": 2,
+        "pathName": "每週節電建議",
+        "status": "Normal"
+    },
+    {
+        "stage": 2,
+        "pathName": "家庭用電流向",
+        "status": "Normal"
+    },
+    {
+        "stage": 2,
+        "pathName": "用電追蹤",
+        "status": "Normal"
+    },
+    {
+        "stage": 2,
+        "pathName": "近期用電趨勢",
+        "status": "Normal"
+    }
+]

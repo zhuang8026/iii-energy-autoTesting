@@ -1,0 +1,17 @@
+[
+    {
+        "stage": 4,
+        "pathName": "智慧插座",
+        "status": "Normal"
+    },
+    {
+        "stage": 4,
+        "pathName": "管理建議",
+        "status": "Normal"
+    },
+    {
+        "stage": 4,
+        "pathName": "新增排程",
+        "status": "Normal"
+    }
+]
