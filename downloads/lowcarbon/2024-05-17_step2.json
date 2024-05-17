@@ -1,7 +1,7 @@
 [
     {
         "stage": 2,
-        "pathName": "每週節電建議",
+        "pathName": "本月目標設定",
         "status": "Normal"
     },
     {
@@ -11,12 +11,17 @@
     },
     {
         "stage": 2,
-        "pathName": "用電追蹤",
+        "pathName": "本月累積用電",
         "status": "Normal"
     },
     {
         "stage": 2,
         "pathName": "近期用電趨勢",
+        "status": "Normal"
+    },
+    {
+        "stage": 2,
+        "pathName": "異常用電趨勢",
         "status": "Normal"
     }
 ]

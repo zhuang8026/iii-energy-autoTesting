@@ -34,18 +34,22 @@ async function goMain() {
   //輸入關鍵字，選擇地區，再按下搜尋
   await nightmare
     .goto('https://www.lowcarbon-hems.org.tw/login', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
+    .wait('div.login-container') //等待頁面加載完成
+    .wait(1000) //等待數秒
     .type('input.el-input__inner', account) //輸入帳號
     .wait(1000) //等待數秒
     .type('div.el-input--suffix input.el-input__inner', pwd) //輸入密碼
     .wait(1000) //等待數秒
     .click('button.btn') //按下「登入」
-    .wait('div.w-block__body') //等待數秒
-    .wait(4000) //等待數秒
-    .click('div.blue-underline') //按下「用電追蹤」
-    .wait(1000) //等待數秒
-    .click('button.chart-btn:nth-child(1)') //按下「用電追蹤」
+    .wait('div.content-box') //等待數秒
     .wait(2000) //等待數秒
-    .click('button.chart-btn:nth-child(2)') //按下「用電追蹤」
+    .click('div.electric-used-target-setting') //按下「本月用電目標額度」
+    .wait(2000) //等待數秒
+    .click('p.blue-underline') //按下「昨日用電量」
+    .wait(1000) //等待數秒
+    .click('button.chart-btn:nth-child(1)') //按下「近期用電趨勢」
+    .wait(2000) //等待數秒
+    .click('button.chart-btn:nth-child(2)') //按下「異常資訊」
     .wait(2000) //等待數秒
     // .click('div.logout__title') //按下「登出」
     // .wait(1000) //等待數秒
@@ -136,28 +140,24 @@ async function mainParseHtml() {
   // let loginStatus = await elmStatus(1, '用戶登入', mianElm);
 
   // 每週節電建議
-  let dialogElm = $(html).find('div.el-dialog[aria-label="節電建議"]');
-  let dialogStatus = await elmStatus(2, '本月用電量', dialogElm);
+  // let dialogElm = $(html).find('div.blue-underline');
+  // let dialogStatus = await elmStatus(2, '每週節電建議', dialogElm);
 
   // 本月目標設定
-  let monthElm = $(html).find('div.el-dialog[aria-label="節電建議"]');
+  let monthElm = $(html).find('div.el-dialog__body');
   let monthStatus = await elmStatus(2, '本月目標設定', monthElm);
 
-  // 家庭用電流向
-  let householdElm = $(html).find('div.track');
-  let householdStatus = await elmStatus(2, '家庭用電流向', householdElm);
+  // 本月累積用電
+  let trackElm = $(html).find('p.contain-title span');
+  let trackStatus = await elmStatus(2, '本月累積用電', trackElm);
 
-  // 用電追蹤
-  let trackElm = $(html).find('div.number');
-  let trackStatus = await elmStatus(2, '用電追蹤', trackElm);
+  // 家庭用電流向
+  let householdElm = $(html).find('div.grid-container');
+  let householdStatus = await elmStatus(2, '家庭用電流向', householdElm);
 
   // 近期用電趨勢 - Recent electricity usage trends
   let RecentElectricityElm = $(html).find('button.chart-btn:nth-child(1)');
-  let RecentElectricityStatus = await elmStatus(
-    2,
-    '近期用電趨勢',
-    RecentElectricityElm
-  );
+  let RecentElectricityStatus = await elmStatus( 2, '近期用電趨勢', RecentElectricityElm);
 
   // 異常用電趨勢 - Abnormal electricity usage trends
   let AbnormalElectricityElm = $(html).find('button.chart-btn:nth-child(2)');
@@ -168,7 +168,8 @@ async function mainParseHtml() {
   );
 
   // arrLink.push(loginStatus);
-  arrLink.push(dialogStatus);
+  // arrLink.push(dialogStatus);
+  arrLink.push(monthStatus);
   arrLink.push(householdStatus);
   arrLink.push(trackStatus);
   arrLink.push(RecentElectricityStatus);

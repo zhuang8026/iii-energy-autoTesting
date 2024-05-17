@@ -27,33 +27,50 @@ let arrLink = [];
 let account = 'billdavid50814@gmail.com';
 let pwd = 'Enargy17885@';
 
-//正式機 - 管理用電
-async function drivce() {
-  console.log('stage4 - 管理用電');
+//正式機 - 登入
+async function login() {
+  console.log('stage1 - 忘記密碼');
+  console.log('開始登入(用戶:billdavid50814)');
 
-  //輸入關鍵字，選擇地區，再按下搜尋
+  // 忘記密碼
   await nightmare
     .goto('https://www.energy-active.org.tw/login', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
     .wait('div.login-container') //等待數秒
+    .wait(1000) //等待數秒
+    .click('div.forget') //按下「登入」
+    .wait(10000) //等待數秒
+    .catch((err) => {
+      console.log('ERROR');
+      // throw err;
+    });
+}
+
+async function goMain() {
+  console.log('stage1 - 登入');
+
+  //輸入關鍵字，選擇地區，再按下搜尋
+  await nightmare
+    // .goto('https://dev.energy-active.org.tw/login', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
+    .wait(1000) //等待數秒
     .type('input.el-input__inner', account) //輸入帳號
     .wait(1000) //等待數秒
     .type('div.el-input--suffix input.el-input__inner', pwd) //輸入密碼
     .wait(1000) //等待數秒
     .click('button.btn') //按下「登入」
     .wait('div.w-block__body') //等待數秒
+    .wait('div.electricity-device-container') //等待數秒
     .wait(4000) //等待數秒
-    .click('li.el-menu-item:nth-child(3)') //按下「家庭能源報告」
-    .wait(8000) //等待數秒
-    .click('div.bell-box:nth-child(1)') //按下「用電建議」
-    .wait(2000) //等待數秒
-    .click('button.el-button') //按下「排程管理」
-    .wait(2000) //等待數秒
-    .click('button.btn-add') //按下「排程管理」
-    .wait(2000) //等待數秒
     .catch((err) => {
       console.log('ERROR');
       // throw err;
     });
+}
+
+//按「下一頁」
+async function _checkPagination() {
+  await nightmare
+    .wait('button.b-btn.b-btn--link.js-more-page')
+    .click('button.b-btn.b-btn--link.js-more-page');
 }
 
 async function elmStatus(stage, page, elm) {
@@ -76,27 +93,30 @@ async function elmStatus(stage, page, elm) {
 }
 
 //分析、整理、收集重要資訊
-async function drivceParseHtml() {
+async function loginParseHtml() {
   console.log('開始收集重要資訊');
   //取得滾動後，得到動態產生結果的 html 元素
   let html = await nightmare.evaluate(() => document.documentElement.innerHTML);
 
   //將重要資掀放到陣列中，以便後續儲存
-  // 智慧插座
-  let drivce = $(html).find('div.power-bg');
-  let drivceStatus = await elmStatus(4, '智慧插座', drivce);
+  // 用戶登入
+  let forgetPassword = $(html).find('div.el-dialog__body');
+  let forgetPasswordStatus = await elmStatus(1, '忘記密碼', forgetPassword);
 
-  // 智慧插座
-  let adviceDialog = $(html).find('ul.advice-dialog');
-  let adviceDialogStatus = await elmStatus(4, '管理建議', adviceDialog);
+  arrLink.push(forgetPasswordStatus);
+}
 
-  // 新增排程
-  let adds = $(html).find('div.container');
-  let addsStatus = await elmStatus(4, '新增排程', adds);
+async function mainParseHtml() {
+  console.log('開始收集重要資訊');
+  //取得滾動後，得到動態產生結果的 html 元素
+  let html = await nightmare.evaluate(() => document.documentElement.innerHTML);
 
-  arrLink.push(drivceStatus);
-  arrLink.push(adviceDialogStatus);
-  arrLink.push(addsStatus);
+  //將重要資掀放到陣列中，以便後續儲存
+  // 用戶登入
+  let mianElm = $(html).find('div.track');
+  let loginStatus = await elmStatus(1, '用戶登入', mianElm);
+
+  arrLink.push(loginStatus);
 }
 
 //關閉 nightmare
@@ -114,7 +134,13 @@ async function asyncArray(functionList) {
 }
 
 try {
-  asyncArray([drivce, drivceParseHtml, close]).then(async function () {
+  asyncArray([
+    login,
+    loginParseHtml, //
+    goMain,
+    mainParseHtml,
+    close,
+  ]).then(async function () {
     console.dir(arrLink, { depth: null });
     const today = new Date();
 
@@ -124,7 +150,7 @@ try {
 
     const formattedDate = `${year}-${month}-${day}`;
     await writeFile(
-      `downloads/energy/${formattedDate}_step4.json`,
+      `downloads/energy/${formattedDate}_step1.json`,
       JSON.stringify(arrLink, null, 4)
     );
 

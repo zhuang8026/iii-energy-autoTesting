@@ -1,11 +1,11 @@
 const fs = require('fs');
 
 // 定义要执行的文件数组
-const files = ['e_step1.js', 'e_step2.js', 'e_step3.js', 'e_step4.js', 'e_step5.js'];
+const files = ['step1.js', 'step2.js', 'step3.js', 'step4.js', 'step5.js'];
 
 // 定义同步函数来按顺序执行文件
 function executeFilesSync(index) {
-    console.log("能源局自動化測試 version2.0.1")
+    console.log("[能源局]自動化測試 version2.0.1")
     // 边界情况：当索引超出文件数组范围时，停止执行
     if (index >= files.length) {
         console.log('所有檔案執行完畢！');
