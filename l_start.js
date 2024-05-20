@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 // 定义要执行的文件数组
-const files = ['step5.js']; // 'step1.js' , 'step2.js', 'step3.js', 'step4.js', 'step5.js'
+const files = ['step1.js' , 'step2.js', 'step3.js', 'step4.js', 'step5.js']; // 'step1.js' , 'step2.js', 'step3.js', 'step4.js', 'step5.js'
 
 // 定义同步函数来按顺序执行文件
 function executeFilesSync(index) {
