@@ -57,7 +57,7 @@ async function goMain() {
     .type('div.el-input--suffix input.el-input__inner', pwd) //輸入密碼
     .wait(1000) //等待數秒
     .click('button.btn') //按下「登入」
-    .wait('div.w-block__body') //等待數秒
+    .wait('div.content-box') //等待數秒
     .wait(4000) //等待數秒
     .catch((err) => {
       console.log('ERROR');
