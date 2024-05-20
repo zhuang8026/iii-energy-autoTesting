@@ -1,0 +1,22 @@
+[
+    {
+        "stage": 5,
+        "pathName": "資訊變更",
+        "status": "Normal"
+    },
+    {
+        "stage": 5,
+        "pathName": "故障報修",
+        "status": "Normal"
+    },
+    {
+        "stage": 5,
+        "pathName": "問卷專區",
+        "status": "Normal"
+    },
+    {
+        "stage": 5,
+        "pathName": "資料修改",
+        "status": "Normal"
+    }
+]
