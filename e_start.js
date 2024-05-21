@@ -5,7 +5,7 @@ const files = ['step1.js', 'step2.js', 'step3.js', 'step4.js', 'step5.js'];
 
 // 定义同步函数来按顺序执行文件
 function executeFilesSync(index) {
-    console.log("[能源局]自動化測試 version2.0.3")
+    console.log("[能源局]自動化測試 version2.0.4")
     // 边界情况：当索引超出文件数组范围时，停止执行
     if (index >= files.length) {
         console.log('所有檔案執行完畢！');
@@ -25,7 +25,7 @@ function executeFilesSync(index) {
         // 间隔1分钟后执行下一个文件
         setTimeout(() => {
             executeFilesSync(index + 1);
-        }, 60000); // 60000毫秒 = 1分钟
+        }, 120000); // 60000毫秒 = 1分钟
     } catch (error) {
         console.error(`執行文件 ${currentFile} 出錯：`, error);
     }
