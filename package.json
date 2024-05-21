@@ -21,11 +21,12 @@
   "author": "WILLIAM_CHUANG (zhuang8026@gmail.com)",
   "license": "UNLICENSED",
   "dependencies": {
+    "electron": "^11.0.0",
     "jquery": "^3.4.1",
     "jsdom": "^16.2.2",
     "moment": "^2.24.0",
     "nightmare": "^3.0.2",
-    "electron": "^11.0.0"
+    "puppeteer": "^22.9.0"
   },
   "overrides": {
     "nightmare": {
