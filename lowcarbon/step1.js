@@ -35,8 +35,11 @@ async function login() {
   // 忘記密碼
   await nightmare
     .goto('https://www.lowcarbon-hems.org.tw/login', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
-    .wait('div.login-container') //等待頁面加載完成
-    .wait(1000) //等待數秒
+    .wait('div.login-page') //等待頁面加載完成
+    .wait(() => {
+      return document.querySelector('div.login-page') !== null;
+    }) //确保div.login-page已经出现
+    .wait(10000) //等待數秒
     .click('div.el-form-item__content a') //按下「忘記密碼」
     .wait(2000) //等待數秒
     .catch((err) => {
