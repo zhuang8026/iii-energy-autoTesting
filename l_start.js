@@ -5,7 +5,7 @@ const files = ['step1.js' , 'step2.js', 'step3.js', 'step4.js', 'step5.js']; // 
 
 // 定义同步函数来按顺序执行文件
 function executeFilesSync(index) {
-    console.log("[新北市]自動化測試 version2.0.2")
+    console.log("[新北市]自動化測試 version2.0.3")
     // 边界情况：当索引超出文件数组范围时，停止执行
     if (index >= files.length) {
         console.log('所有檔案執行完畢！');

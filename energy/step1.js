@@ -35,12 +35,15 @@ async function login() {
   // 忘記密碼
   await nightmare
     .goto('https://www.energy-active.org.tw/login', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
-    .wait('div.login-container') //等待數秒
-    .wait(1000) //等待數秒
-    .click('div.forget') //按下「登入」
+    .wait('div.login-page') //等待數秒
+    .wait(() => {
+      return document.querySelector('div.login-page') !== null;
+    }) //确保div.login-page已经出现
     .wait(10000) //等待數秒
+    .click('div.forget') //按下「忘記密碼」
+    .wait(2000) //等待數秒
     .catch((err) => {
-      console.log('ERROR');
+      console.log('ERROR:', err);
       // throw err;
     });
 }
@@ -61,7 +64,7 @@ async function goMain() {
     .wait('div.electricity-device-container') //等待數秒
     .wait(4000) //等待數秒
     .catch((err) => {
-      console.log('ERROR');
+      console.log('ERROR:', err);
       // throw err;
     });
 }
