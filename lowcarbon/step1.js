@@ -24,8 +24,24 @@ const headers = {
 let arrLink = [];
 
 //關鍵字
-let account = 'u0955318835@gmail.com';
+let account = 'billdavid50814@gmail.com';
 let pwd = 'Enargy17885@';
+
+//正式機 - 登入測試
+async function test_login() {
+  console.log('stage1 - 正式機 - 登入測試');
+  await nightmare
+    .goto('https://www.lowcarbon-hems.org.tw', headers) // 进度到当前网址，所以如果想返回，也可以只有.goto()
+    .wait('div.login-page') //等待數秒
+    .wait(() => {
+      return document.querySelector('div.login-page') !== null;
+    }) //确保div.login-page已经出现
+    .wait(2000) //等待數秒
+    .catch((err) => {
+      console.log('ERROR:', err);
+      // throw err;
+    });
+}
 
 //正式機 - 登入
 async function login() {
@@ -137,6 +153,7 @@ async function asyncArray(functionList) {
 
 try {
   asyncArray([
+    test_login,
     login,
     loginParseHtml, //
     goMain,
